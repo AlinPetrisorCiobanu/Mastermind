@@ -1,11 +1,13 @@
-
+import React from "react";
+import { Body } from "./Pages/Body/Body";
+import "./styles.scss";
 
 function App() {
   
 
   return (
     <>
-     <h1>Hola</h1>
+     <Body />
     </>
   )
 }
