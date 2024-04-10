@@ -1,5 +1,5 @@
 import React from "react";
-import { Body } from "./Pages/Body/Body";
+import { Body } from "./pages/Body/Body";
 import "./styles.scss";
 
 function App() {
