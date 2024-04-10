@@ -1,0 +1,50 @@
+.login-design {
+  height: 100vh;
+  width: 100%;
+  .input-design {
+    margin: 20px;
+    background-image: url("./../../img/background-input.jpg");
+    opacity: 0.8;
+    padding: 0px;
+    border-radius: 10px;
+    input {
+      height: 50px;
+      width: 100%;
+      border-radius: 10px;
+      border: 0px;
+      border: 3px groove;
+      background-color: rgba(0, 0, 0, 0.394);
+      color: aliceblue;
+      font-size: 1.3rem;
+      padding: 30px;
+      box-shadow: 5px 5px 2px 2px rgba(0, 0, 0, 0.672);
+    }
+    ::-webkit-input-placeholder {
+      color: aliceblue;
+      font-size: 1.3rem;
+    }
+  }
+  .buttons-design {
+    .custom_button {
+      margin-top: 50px;
+      margin-bottom: 20px;
+      padding: 5px;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 10px;
+      border: 2px solid black;
+      background-color: rgba(74, 74, 74, 0.622);
+      color: aliceblue;
+      box-shadow: 3px 3px 2px 2px rgba(240, 248, 255, 0.449);
+      font-size: 1.2rem;
+      @media screen and (max-width: 500px) {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+    }
+    .button-register {
+      padding-right: 100px;
+      padding-left: 100px;
+    }
+  }
+}
