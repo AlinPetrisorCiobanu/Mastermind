@@ -1,40 +1,40 @@
-@import url('https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Lobster&display=swap');
-.home-design{
-    
-    margin-top: 30vh;
-    h1{
-        font-family: "Bungee Spice", sans-serif;
-        font-size: 6.3rem;
-        margin-bottom: 80px;
-    }
+@import "https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Lobster&display=swap";
 
-    .menu-option{
-        margin-top: 60px;
-        padding: 7px;
-        padding-left: 30px;
-        border-bottom: 1px solid black;
-        border-radius: 10px;
-        background-color: rgba(5, 5, 5, 0.513);
-        box-shadow: 1px 1px 1px 1px aliceblue;
-        h2{
-            font-size: 1.5rem;
-        }
+.home-design {
+  margin-top: 30vh;
+  h1 {
+    font-family: "Bungee Spice", sans-serif;
+    font-size: 6.3rem;
+    margin-bottom: 80px;
+  }
+
+  .menu-option {
+    margin-top: 60px;
+    padding: 7px;
+    padding-left: 30px;
+    border-bottom: 1px solid black;
+    border-radius: 10px;
+    background-color: rgba(5, 5, 5, 0.513);
+    box-shadow: 1px 1px 1px 1px aliceblue;
+    h2 {
+      font-size: 1.5rem;
     }
-    .menu-option:hover{
-        background-color: rgba(82, 82, 82, 0.489);
-        box-shadow: 1px 1px 10px 10px aliceblue;
+  }
+  .menu-option:hover {
+    background-color: rgba(82, 82, 82, 0.489);
+    box-shadow: 1px 1px 10px 10px aliceblue;
+  }
+  @media screen and (max-width: 500px) {
+    margin-top: 10vh;
+    h1 {
+      font-size: 4.3rem;
+      margin-bottom: 40px;
     }
-    @media screen and (max-width: 500px) {
-        margin-top: 10vh;
-        h1{
-            font-size: 4.3rem;
-            margin-bottom: 40px;
-        }
-        .menu-option{
-            margin-top: 40px;
-            h2{
-                font-size: 1.2rem;
-            }
-        }
+    .menu-option {
+      margin-top: 40px;
+      h2 {
+        font-size: 1.2rem;
+      }
     }
+  }
 }
