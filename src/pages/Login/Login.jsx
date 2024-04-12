@@ -40,11 +40,11 @@ export const Login = () => {
   const loginHand = (data) => {
     if (data.user_data !== "" || data.password !== "") {
       let dataToSend = {};
-        dataToSend = {
-          nickname: data.user_data,
-          email: data.user_data,
-          password: data.password,
-        };
+      dataToSend = {
+        nickname: data.user_data,
+        email: data.user_data,
+        password: data.password,
+      };
       login(dataToSend)
         .then((res) => {
           dispatch(userLogin({ credentials: res.token, user: res.data }));
@@ -58,10 +58,13 @@ export const Login = () => {
   return (
     <Container className="d-flex justify-content-center align-items-center login-design">
       <Col xs={12} md={12}>
-        <Row>
-          <Col xs={12} md={12}>
-            <Row className="d-flex justify-content-center">
-              <Col xs={9} md={5} className="input-design">
+        <Row className="d-flex justify-content-center">
+          <Col xs={12} md={7}>
+            <Row className="file-input-design">
+              <Col xs={12} md={4}>
+                <label htmlFor="name">Usuario o Email : </label>
+              </Col>
+              <Col xs={12} md={8}>
                 <Custom_Input
                   placeholder={"Usuario o Email"}
                   name={"user_data"}
@@ -70,16 +73,19 @@ export const Login = () => {
               </Col>
             </Row>
           </Col>
-          <Col xs={12} md={12}>
-            <Row className="d-flex justify-content-center">
-              <Col xs={9} md={5} className="input-design">
-                <Custom_Input
+          <Col xs={12} md={7}>
+          <Row className="file-input-design">
+            <Col xs={12} md={4}>
+              <label htmlFor="name">Contraseña : </label>
+            </Col>
+            <Col xs={12} md={8}>
+            <Custom_Input
                   placeholder={"Contraseña"}
                   name={"password"}
                   handler={inputHandler}
                 />
-              </Col>
-            </Row>
+            </Col>
+          </Row>
           </Col>
           <Col xs={12} md={12}>
             <Row className="d-flex justify-content-center buttons-design">
@@ -87,11 +93,18 @@ export const Login = () => {
                 <Row className="d-flex justify-content-center">
                   <Col xs={6} md={5} className="d-flex justify-content-center">
                     <Row>
-                    <Col as={Link} to="/" className="custom_button">Menu</Col>
+                      <Col as={Link} to="/" className="custom_button">
+                        Menu
+                      </Col>
                     </Row>
                   </Col>
                   <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Custom_Button name={"Entrar"} clase={"custom_button"} clickHandler={loginHand} data={loginData}/>
+                    <Custom_Button
+                      name={"Entrar"}
+                      clase={"custom_button"}
+                      clickHandler={loginHand}
+                      data={loginData}
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -99,7 +112,13 @@ export const Login = () => {
                 <Row className="d-flex justify-content-center">
                   <Col xs={6} md={5} className="d-flex justify-content-center">
                     <Row>
-                      <Col as={Link} to="/register_user" className="custom_button button-register">Registrate</Col>
+                      <Col
+                        as={Link}
+                        to="/register_user"
+                        className="custom_button button-register"
+                      >
+                        Registrate
+                      </Col>
                     </Row>
                   </Col>
                 </Row>
