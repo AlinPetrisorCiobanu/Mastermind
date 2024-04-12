@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { userDate, userLogin } from "../userSlice";
 import { login } from "../../service/apiCalls";
+import { Link } from "react-router-dom";
 import "./Login.scss";
 
 export const Login = () => {
@@ -85,7 +86,9 @@ export const Login = () => {
               <Col xs={9} md={5}>
                 <Row className="d-flex justify-content-center">
                   <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Custom_Button name={"Menu"} clase={"custom_button"} />
+                    <Row>
+                    <Col as={Link} to="/" className="custom_button">Menu</Col>
+                    </Row>
                   </Col>
                   <Col xs={6} md={5} className="d-flex justify-content-center">
                     <Custom_Button name={"Entrar"} clase={"custom_button"} clickHandler={loginHand} data={loginData}/>
@@ -95,7 +98,9 @@ export const Login = () => {
               <Col xs={12} md={12}>
                 <Row className="d-flex justify-content-center">
                   <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Custom_Button name={"Register"} clase={"custom_button button-register"}/>
+                    <Row>
+                      <Col as={Link} to="/register_user" className="custom_button button-register">Register</Col>
+                    </Row>
                   </Col>
                 </Row>
               </Col>
