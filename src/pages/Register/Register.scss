@@ -1,12 +1,20 @@
 .register-design{
     margin-top: 20vh;
-
+    @media screen and (max-width: 500px) {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    }
     .file-input-design{
         margin-top: 40px;
         background-color: rgba(0, 0, 0, 0.594);
         border-bottom: 2px solid white;
         border-radius: 10px;
         max-width: 740px;
+        @media screen and (max-width: 500px) {
+            margin-top: 30px;
+            max-width: 92vw;
+            margin-left: 1vw;
+            }
         label{
             padding: 10px;
         }
@@ -28,7 +36,6 @@
             font-size: 1.2rem;
           }
     }
-
     .buttons-design {
         .custom_button {
           margin-top: 50px;
@@ -43,13 +50,19 @@
           box-shadow: 3px 3px 2px 2px rgba(240, 248, 255, 0.449);
           font-size: 1.2rem;
           @media screen and (max-width: 500px) {
-            margin-top: 20px;
+            margin-top: 30px;
             margin-bottom: 20px;
+            padding-left: 20px;
+          padding-right: 20px;
           }
         }
         .button-register {
           padding-right: 100px;
           padding-left: 100px;
+          @media screen and (max-width: 500px) {
+            padding-right: 20px;
+            padding-left: 20px;
+          }
         }
     }
 }

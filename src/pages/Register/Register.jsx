@@ -120,7 +120,7 @@ export const Register = () => {
                   <Row>
                     <Col
                       as={Link}
-                      to="/register_user"
+                      to="/login_user"
                       className="custom_button button-register"
                     >
                       Iniciar Session

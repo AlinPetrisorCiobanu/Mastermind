@@ -99,7 +99,7 @@ export const Login = () => {
                 <Row className="d-flex justify-content-center">
                   <Col xs={6} md={5} className="d-flex justify-content-center">
                     <Row>
-                      <Col as={Link} to="/register_user" className="custom_button button-register">Register</Col>
+                      <Col as={Link} to="/register_user" className="custom_button button-register">Registrate</Col>
                     </Row>
                   </Col>
                 </Row>
