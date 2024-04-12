@@ -2,13 +2,62 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Custom_Input } from "../../common/Input/Input";
-import { Link } from "react-router-dom";
-import "./Register.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { Custom_Button } from "../../common/Button/Buttons";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import "./Register.scss";
+import { userDate, userLogin } from "../userSlice";
+import { login, register } from "../../service/apiCalls";
 
 export const Register = () => {
-  const registerHand = () => {
-    console.log("registro");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [registerData, setRegisterData] = useState({
+    name: "",
+    last_name: "",
+    email: "",
+    nickname: "",
+    password: "",
+  });
+  const token = useSelector(userDate).credentials;
+
+  //guardo los datos de los inputs
+  const inputHandler = (e) => {
+    setRegisterData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const tokenExist = (tokenEx) => {
+    if (tokenEx) {
+      navigate("/");
+    }
+  };
+  useEffect(() => {
+    tokenExist(token);
+  }, [token]);
+
+  const registerHand = (data) => {
+    data.email = data.email.toLowerCase();
+    register(data)
+      .then(() => {
+        const dataToLogin = {
+          email: data.email,
+          password: data.password,
+        };
+        login(dataToLogin)
+          .then((res) => {
+            dispatch(userLogin({ credentials: res.token, user: res.data }));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        setOtherError(err);
+      });
   };
 
   return (
@@ -25,6 +74,7 @@ export const Register = () => {
                 name={"name"}
                 placeholder={"Nombre"}
                 type={"text"}
+                handler={inputHandler}
               />
             </Col>
           </Row>
@@ -41,6 +91,7 @@ export const Register = () => {
                 name={"last_name"}
                 placeholder={"Apellidos"}
                 type={"text"}
+                handler={inputHandler}
               />
             </Col>
           </Row>
@@ -57,6 +108,7 @@ export const Register = () => {
                 name={"email"}
                 placeholder={"Correo Electronico"}
                 type={"Email"}
+                handler={inputHandler}
               />
             </Col>
           </Row>
@@ -73,6 +125,7 @@ export const Register = () => {
                 name={"nickname"}
                 placeholder={"Nombre de Usuario"}
                 type={"text"}
+                handler={inputHandler}
               />
             </Col>
           </Row>
@@ -89,6 +142,7 @@ export const Register = () => {
                 name={"password"}
                 placeholder={"Contraseña"}
                 type={"password"}
+                handler={inputHandler}
               />
             </Col>
           </Row>
@@ -110,6 +164,7 @@ export const Register = () => {
                     name={"Registrate"}
                     clase={"custom_button"}
                     clickHandler={registerHand}
+                    data={registerData}
                   />
                 </Col>
               </Row>
