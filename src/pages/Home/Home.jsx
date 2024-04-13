@@ -24,7 +24,7 @@ export const Home = () => {
             <h1>Master Mind</h1>
           </Col>
         </Row>
-        {token ? (
+        {token.length > 10 ? (
           <>
             <h4 className="text-center">Hola Sr.{user.name}</h4>
             <Row className="d-flex justify-content-center">
