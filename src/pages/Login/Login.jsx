@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { userDate, userLogin } from "../userSlice";
 import { login } from "../../service/apiCalls";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import loading_gif from "../../img/loading.gif";
 import "./Login.scss";
 
 export const Login = () => {
@@ -18,7 +20,17 @@ export const Login = () => {
     user_data: "",
     password: "",
   });
+  const [errorData, setErrorData] = useState({
+    otherError: "",
+  });
   const token = useSelector(userDate).credentials;
+  const [loading, setLoading] = useState(false);
+  const handleOtherError = (errorMessage) => {
+    setErrorData((prevState) => ({
+      ...prevState,
+      otherError: errorMessage,
+    }));
+  };
 
   const tokenExist = (tokenEx) => {
     if (tokenEx) {
@@ -37,8 +49,27 @@ export const Login = () => {
     }));
   };
 
+  useEffect(() => {
+    const lastError = Object.values(errorData)
+      .reverse()
+      .find((error) => error !== "");
+    if (lastError) {
+      toast.error(lastError, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, [errorData]);
+
   const loginHand = (data) => {
     if (data.user_data !== "" || data.password !== "") {
+      setLoading(true)
       let dataToSend = {};
       dataToSend = {
         nickname: data.user_data,
@@ -48,15 +79,24 @@ export const Login = () => {
       login(dataToSend)
         .then((res) => {
           dispatch(userLogin({ credentials: res.token, user: res.data }));
+          setLoading(false)
         })
-        .catch((err) => console.log(err));
+        .catch((error) =>{ handleOtherError(error)});
     } else {
-      console.log("Error: campos vacíos");
+      handleOtherError("¡Campos Vacios!");
     }
   };
 
   return (
     <Container className="d-flex justify-content-center align-items-center login-design">
+      {loading ? (
+        <Row className="loading-design">
+          <Col xs={12} md={6}>
+            <img src={loading_gif} alt="loading gif" />
+          </Col>
+        </Row>
+      ) : (
+        <>
       <Col xs={12} md={12}>
         <Row className="d-flex justify-content-center">
           <Col xs={12} md={7}>
@@ -127,6 +167,20 @@ export const Login = () => {
           </Col>
         </Row>
       </Col>
+        </>
+      )}
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </Container>
   );
 };
