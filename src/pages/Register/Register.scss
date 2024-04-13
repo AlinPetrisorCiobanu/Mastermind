@@ -64,5 +64,10 @@
             padding-left: 20px;
           }
         }
+      }
+      .row-buttons-register{
+      @media screen and (min-width: 1390px) {
+        margin-left: -150px;
+      }
     }
 }

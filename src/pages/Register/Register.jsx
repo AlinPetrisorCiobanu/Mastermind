@@ -63,7 +63,6 @@ export const Register = () => {
   return (
     <Container className="register-design">
       <Row className="d-flex justify-content-center">
-        <Col xs={0} md={2}></Col>
         <Col xs={12} md={8}>
           <Row className="file-input-design">
             <Col xs={12} md={4}>
@@ -79,8 +78,6 @@ export const Register = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} md={2}></Col>
-        <Col xs={0} md={2}></Col>
         <Col xs={12} md={8}>
           <Row className="file-input-design">
             <Col xs={12} md={4}>
@@ -96,8 +93,6 @@ export const Register = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} md={2}></Col>
-        <Col xs={0} md={2}></Col>
         <Col xs={12} md={8}>
           <Row className="file-input-design">
             <Col xs={12} md={4}>
@@ -113,8 +108,6 @@ export const Register = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} md={2}></Col>
-        <Col xs={0} md={2}></Col>
         <Col xs={12} md={8}>
           <Row className="file-input-design">
             <Col xs={12} md={4}>
@@ -130,8 +123,6 @@ export const Register = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} md={2}></Col>
-        <Col xs={0} md={2}></Col>
         <Col xs={12} md={8}>
           <Row className="file-input-design">
             <Col xs={12} md={4}>
@@ -147,7 +138,8 @@ export const Register = () => {
             </Col>
           </Row>
         </Col>
-        <Col xs={0} md={2}></Col>
+      </Row>
+      <Row className="d-flex justify-content-center row-buttons-register">  
         <Col xs={12} md={12}>
           <Row className="d-flex justify-content-center buttons-design">
             <Col xs={9} md={5}>
