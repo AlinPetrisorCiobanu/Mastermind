@@ -4,6 +4,18 @@
     margin-top: 50px;
     margin-bottom: 50px;
     }
+    .loading-design{
+      img{
+        width: 50vw;
+      }
+      @media screen and (max-width: 500px) {
+        img{
+          margin-top: 20vh;
+          width: 90vw;
+          margin-left: 3vw;
+        }
+      }
+    }
     .file-input-design{
         margin-top: 40px;
         background-color: rgba(0, 0, 0, 0.594);
