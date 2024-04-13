@@ -137,7 +137,7 @@ export const Login = () => {
               </Col>
               <Col xs={12} md={7}>
                 <Row className="d-flex justify-content-center mt-5">
-                  <Col className="text-end">
+                  <Col xs={8} md={6} className="text-end">
                     <p className="text-checkbox">
                     Ver Contraseña :
                     </p>
@@ -147,15 +147,11 @@ export const Login = () => {
                   </Col>
                 </Row>
               </Col>
-              <Col xs={12} md={12}>
+              <Col xs={12} md={12} className="column-buttons-login">
                 <Row className="d-flex justify-content-center buttons-design">
                   <Col xs={9} md={5}>
                     <Row className="d-flex justify-content-center">
-                      <Col
-                        xs={6}
-                        md={5}
-                        className="d-flex justify-content-center"
-                      >
+                      <Col xs={6} md={5} className="d-flex justify-content-center" >
                         <Row>
                           <Col as={Link} to="/" className="custom_button">
                             Menu
