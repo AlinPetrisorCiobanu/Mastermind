@@ -5,11 +5,17 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userDate, userLogout } from "../userSlice";
 import "./Home.scss";
+import { useEffect, useState } from "react";
 
 export const Home = () => {
-  const token = useSelector(userDate).credentials;
+  const validateToken = useSelector(userDate).credentials;
+  const [token , setToken ] = useState("")
   const user = useSelector(userDate).user;
   const dispatch = useDispatch();
+
+  useEffect(()=>{
+    setToken(validateToken)
+  },[validateToken])
 
    //la función de logout
    const LogOut = () => {

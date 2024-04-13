@@ -32,7 +32,8 @@ export const Register = () => {
     passwordError: "",
     otherError: "",
   });
-  const token = useSelector(userDate).credentials;
+  const validateToken = useSelector(userDate).credentials;
+  const [token , setToken ] = useState("")
   const [loading, setLoading] = useState(false);
   const handleOtherError = (errorMessage) => {
     setErrorData((prevState) => ({
@@ -40,6 +41,10 @@ export const Register = () => {
       otherError: errorMessage,
     }));
   };
+
+  useEffect(()=>{
+    setToken(validateToken)
+  },[validateToken])
 
   const tokenExist = (tokenEx) => {
     if (tokenEx) {

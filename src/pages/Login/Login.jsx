@@ -23,7 +23,8 @@ export const Login = () => {
   const [errorData, setErrorData] = useState({
     otherError: "",
   });
-  const token = useSelector(userDate).credentials;
+  const validateToken = useSelector(userDate).credentials;
+  const [token , setToken ] = useState("")
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const handleOtherError = (errorMessage) => {
@@ -32,6 +33,10 @@ export const Login = () => {
       otherError: errorMessage,
     }));
   };
+
+  useEffect(()=>{
+    setToken(validateToken)
+  },[validateToken])
 
   const tokenExist = (tokenEx) => {
     if (tokenEx) {
