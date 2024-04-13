@@ -45,7 +45,7 @@ export const Home = () => {
             </Row>
             )}
             <Row className="d-flex justify-content-center">
-              <Col as={Link} to="/" className="menu-option" xs={8} md={4}>
+              <Col as={Link} to="/about" className="menu-option" xs={8} md={4}>
                 <h2>Como Jugar</h2>
               </Col>
             </Row>
