@@ -1,10 +1,24 @@
 @import "https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Lobster&display=swap";
 
 .home-design {
-  margin-top: 30vh;
+  margin-top: 10vh;
+  @media screen and (max-width: 500px) {
+    margin-bottom: 20vh;
+  }
   h1 {
     font-family: "Bungee Spice", sans-serif;
     font-size: 6.3rem;
+    margin-bottom: 80px;
+  }
+  .master-2-design{
+    margin-top: 10vh;
+  }
+  .master-design{
+    margin-top: 30vh;
+  }
+  h4 {
+    font-family: "Bungee Spice", sans-serif;
+    font-size: 3.3rem;
     margin-bottom: 80px;
   }
 
