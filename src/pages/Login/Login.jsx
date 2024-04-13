@@ -69,7 +69,7 @@ export const Login = () => {
 
   const loginHand = (data) => {
     if (data.user_data !== "" || data.password !== "") {
-      setLoading(true)
+      setLoading(true);
       let dataToSend = {};
       dataToSend = {
         nickname: data.user_data,
@@ -78,10 +78,15 @@ export const Login = () => {
       };
       login(dataToSend)
         .then((res) => {
-          dispatch(userLogin({ credentials: res.token, user: res.data }));
-          setLoading(false)
+          if (res.succes) {
+            dispatch(userLogin({ credentials: res.token, user: res.data }));
+            navigate("/");
+          } else {
+            handleOtherError(res.response.data.message);
+          }
+          setLoading(false);
         })
-        .catch((error) =>{ handleOtherError(error)});
+        .catch((error) => handleOtherError(error));
     } else {
       handleOtherError("¡Campos Vacios!");
     }
@@ -97,67 +102,81 @@ export const Login = () => {
         </Row>
       ) : (
         <>
-      <Col xs={12} md={12}>
-        <Row className="d-flex justify-content-center">
-          <Col xs={12} md={7}>
-            <Row className="file-input-design">
-              <Col xs={12} md={4}>
-                <label htmlFor="name">Usuario o Email : </label>
-              </Col>
-              <Col xs={12} md={8}>
-                <Custom_Input
-                  placeholder={"Usuario o Email"}
-                  name={"user_data"}
-                  handler={inputHandler}
-                />
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={12} md={7}>
-          <Row className="file-input-design">
-            <Col xs={12} md={4}>
-              <label htmlFor="name">Contraseña : </label>
-            </Col>
-            <Col xs={12} md={8}>
-            <Custom_Input
-                  placeholder={"Contraseña"}
-                  name={"password"}
-                  handler={inputHandler}
-                />
-            </Col>
-          </Row>
-          </Col>
           <Col xs={12} md={12}>
-            <Row className="d-flex justify-content-center buttons-design">
-              <Col xs={9} md={5}>
-                <Row className="d-flex justify-content-center">
-                  <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Row>
-                      <Col as={Link} to="/" className="custom_button">
-                        Menu
-                      </Col>
-                    </Row>
+            <Row className="d-flex justify-content-center">
+              <Col xs={12} md={7}>
+                <Row className="file-input-design">
+                  <Col xs={12} md={4}>
+                    <label htmlFor="name">Usuario o Email : </label>
                   </Col>
-                  <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Custom_Button
-                      name={"Entrar"}
-                      clase={"custom_button"}
-                      clickHandler={loginHand}
-                      data={loginData}
+                  <Col xs={12} md={8}>
+                    <Custom_Input
+                      placeholder={"Usuario o Email"}
+                      name={"user_data"}
+                      handler={inputHandler}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+              <Col xs={12} md={7}>
+                <Row className="file-input-design">
+                  <Col xs={12} md={4}>
+                    <label htmlFor="name">Contraseña : </label>
+                  </Col>
+                  <Col xs={12} md={8}>
+                    <Custom_Input
+                      placeholder={"Contraseña"}
+                      name={"password"}
+                      handler={inputHandler}
                     />
                   </Col>
                 </Row>
               </Col>
               <Col xs={12} md={12}>
-                <Row className="d-flex justify-content-center">
-                  <Col xs={6} md={5} className="d-flex justify-content-center">
-                    <Row>
+                <Row className="d-flex justify-content-center buttons-design">
+                  <Col xs={9} md={5}>
+                    <Row className="d-flex justify-content-center">
                       <Col
-                        as={Link}
-                        to="/register_user"
-                        className="custom_button button-register"
+                        xs={6}
+                        md={5}
+                        className="d-flex justify-content-center"
                       >
-                        Registrate
+                        <Row>
+                          <Col as={Link} to="/" className="custom_button">
+                            Menu
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col
+                        xs={6}
+                        md={5}
+                        className="d-flex justify-content-center"
+                      >
+                        <Custom_Button
+                          name={"Entrar"}
+                          clase={"custom_button"}
+                          clickHandler={loginHand}
+                          data={loginData}
+                        />
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col xs={12} md={12}>
+                    <Row className="d-flex justify-content-center">
+                      <Col
+                        xs={6}
+                        md={5}
+                        className="d-flex justify-content-center"
+                      >
+                        <Row>
+                          <Col
+                            as={Link}
+                            to="/register_user"
+                            className="custom_button button-register"
+                          >
+                            Registrate
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
                   </Col>
@@ -165,8 +184,6 @@ export const Login = () => {
               </Col>
             </Row>
           </Col>
-        </Row>
-      </Col>
         </>
       )}
       <ToastContainer
