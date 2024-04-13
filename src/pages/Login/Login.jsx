@@ -25,6 +25,7 @@ export const Login = () => {
   });
   const token = useSelector(userDate).credentials;
   const [loading, setLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
   const handleOtherError = (errorMessage) => {
     setErrorData((prevState) => ({
       ...prevState,
@@ -114,6 +115,7 @@ export const Login = () => {
                       placeholder={"Usuario o Email"}
                       name={"user_data"}
                       handler={inputHandler}
+                      type={"text"}
                     />
                   </Col>
                 </Row>
@@ -128,7 +130,20 @@ export const Login = () => {
                       placeholder={"Contraseña"}
                       name={"password"}
                       handler={inputHandler}
+                      type={visible?("text"):("password")}
                     />
+                  </Col>
+                </Row>
+              </Col>
+              <Col xs={12} md={7}>
+                <Row className="d-flex justify-content-center mt-5">
+                  <Col className="text-end">
+                    <p className="text-checkbox">
+                    Ver Contraseña :
+                    </p>
+                  </Col>
+                  <Col>
+                    <input className="checkbox" type="checkbox" checked={visible} onChange={() => setVisible(!visible)}/>
                   </Col>
                 </Row>
               </Col>

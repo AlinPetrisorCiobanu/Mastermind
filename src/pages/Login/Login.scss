@@ -68,6 +68,17 @@
       font-size: 1.3rem;
     }
   }
+  .text-checkbox{
+    font-size: 1.2rem;
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
+  }
+  .checkbox{
+    margin-top: 5px;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
+  }
   .buttons-design {
     .custom_button {
       margin-top: 50px;
