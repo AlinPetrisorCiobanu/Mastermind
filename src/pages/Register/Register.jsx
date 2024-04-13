@@ -52,7 +52,9 @@ export const Register = () => {
     }
   };
   useEffect(() => {
-    tokenExist(token);
+    if(token.length > 20){
+      tokenExist(token);
+    }
   }, [token]);
 
   //guardo los datos de los inputs
