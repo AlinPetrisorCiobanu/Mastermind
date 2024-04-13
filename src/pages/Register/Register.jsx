@@ -88,46 +88,26 @@ export const Register = () => {
 
   const registerHand = (data) => {
     data.email = data.email.toLowerCase();
-
-    if (
-      data.name !== "" &&
-      data.last_name !== "" &&
-      data.email !== "" &&
-      data.nickname !== "" &&
-      data.password !== ""
-    ) {
-      if (
-        errorData.nameError === "" &&
-        errorData.last_nameError === "" &&
-        errorData.emailError === "" &&
-        errorData.nicknameError === "" &&
-        errorData.passwordError === ""
-      ) {
-        setLoading(true);
-        register(data)
-          .then(() => {
-            const dataToLogin = {
-              email: data.email,
-              password: data.password,
-            };
-            login(dataToLogin)
-              .then((res) => {
-                dispatch(userLogin({ credentials: res.token, user: res.data }));
-                setLoading(false);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
-          })
-          .catch((err) => {
-            setOtherError(err);
-          });
-      }
-      {
-        handleOtherError("¡Hay ERRORES pendientes!");
-      }
+    const isEmpty = (field) => !field.trim();
+    const hasErrors = Object.values(errorData).some((error) => error !== "");
+  
+    if (!Object.values(data).some(isEmpty) && !hasErrors) {
+      setLoading(true);
+      register(data)
+        .then(() => {
+          const dataToLogin = { email: data.email, password: data.password };
+          login(dataToLogin)
+            .then((res) => {
+              dispatch(userLogin({ credentials: res.token, user: res.data }));
+              setLoading(false);
+            })
+            .catch(console.log);
+        })
+        .catch((err) => {
+          setOtherError(err);
+        });
     } else {
-      handleOtherError("¡Campos Vacios!");
+      handleOtherError(isEmpty(data.email) ? "¡Campos Vacios!" : "¡Hay ERRORES pendientes!");
     }
   };
 
