@@ -6,9 +6,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { Custom_Button } from "../../common/Button/Buttons";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import "./Register.scss";
-import { userDate, userLogin } from "../userSlice";
 import { login, register } from "../../service/apiCalls";
+import { userDate, userLogin } from "../userSlice";
+import { ToastContainer, toast } from "react-toastify";
+import { validate } from "../../service/useFul";
+import "react-toastify/dist/ReactToastify.css";
+import "./Register.scss";
 
 export const Register = () => {
   const dispatch = useDispatch();
@@ -20,15 +23,14 @@ export const Register = () => {
     nickname: "",
     password: "",
   });
+  const [errorData, setErrorData] = useState({
+    nameError: "",
+    last_nameError: "",
+    emailError: "",
+    nicknameError: "",
+    passwordError: "",
+  });
   const token = useSelector(userDate).credentials;
-
-  //guardo los datos de los inputs
-  const inputHandler = (e) => {
-    setRegisterData((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   const tokenExist = (tokenEx) => {
     if (tokenEx) {
@@ -38,6 +40,41 @@ export const Register = () => {
   useEffect(() => {
     tokenExist(token);
   }, [token]);
+
+  //guardo los datos de los inputs
+  const inputHandler = (e) => {
+    setRegisterData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+   //chequeo de errores para los inputs
+   const checkError = (e) => {
+    let error = "";
+    error = validate(e.target.name, e.target.value);
+    setErrorData((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
+
+  useEffect(() => {
+    const lastError = Object.values(errorData).reverse().find(error => error !== "");
+    if (lastError) {
+      toast.error(lastError, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  }, [errorData]);
+  
 
   const registerHand = (data) => {
     data.email = data.email.toLowerCase();
@@ -74,6 +111,8 @@ export const Register = () => {
                 placeholder={"Nombre"}
                 type={"text"}
                 handler={inputHandler}
+                handlerError={checkError}
+                custom={errorData.nameError?("input-error"):("")}
               />
             </Col>
           </Row>
@@ -89,6 +128,8 @@ export const Register = () => {
                 placeholder={"Apellidos"}
                 type={"text"}
                 handler={inputHandler}
+                handlerError={checkError}
+                custom={errorData.last_nameError?("input-error"):("")}
               />
             </Col>
           </Row>
@@ -104,6 +145,8 @@ export const Register = () => {
                 placeholder={"Correo Electronico"}
                 type={"Email"}
                 handler={inputHandler}
+                handlerError={checkError}
+                custom={errorData.emailError?("input-error"):("")}
               />
             </Col>
           </Row>
@@ -119,6 +162,8 @@ export const Register = () => {
                 placeholder={"Nombre de Usuario"}
                 type={"text"}
                 handler={inputHandler}
+                handlerError={checkError}
+                custom={errorData.nicknameError?("input-error"):("")}
               />
             </Col>
           </Row>
@@ -134,6 +179,8 @@ export const Register = () => {
                 placeholder={"Contraseña"}
                 type={"password"}
                 handler={inputHandler}
+                handlerError={checkError}
+                custom={errorData.passwordError?("input-error"):("")}
               />
             </Col>
           </Row>
@@ -179,6 +226,18 @@ export const Register = () => {
           </Row>
         </Col>
       </Row>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </Container>
   );
 };
