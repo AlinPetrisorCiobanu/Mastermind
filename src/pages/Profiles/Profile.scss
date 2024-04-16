@@ -2,6 +2,8 @@
     margin-top: 30vh;
     .card-design{
         padding: 2px;
+        padding-top: 40px;
+        padding-bottom: 20px;
         border: 0px;
         border-bottom: 10px solid rgba(0, 136, 255, 0.884);
         border-right: 10px solid rgb(0, 136, 255);
@@ -31,4 +33,7 @@
             }
         }
     }
+}
+.profile-design-admin{
+    margin-top: 10vh;
 }

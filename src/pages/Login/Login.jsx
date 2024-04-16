@@ -174,7 +174,7 @@ export const Login = () => {
                           name={"Entrar"}
                           clase={"custom_button"}
                           clickHandler={loginHand}
-                          data={loginData}
+                          data={[loginData]}
                         />
                       </Col>
                     </Row>

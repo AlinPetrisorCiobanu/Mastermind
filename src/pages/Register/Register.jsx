@@ -63,7 +63,7 @@ export const Register = () => {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-  };
+  }
 
   //chequeo de errores para los inputs
   const checkError = (e) => {
@@ -90,11 +90,41 @@ export const Register = () => {
         progress: undefined,
         theme: "dark",
       });
+
+      setErrorData(prevState => {
+        const cleanedErrors = {};
+        for (const key in prevState) {
+          cleanedErrors[key] = "";
+        }
+        return cleanedErrors;
+      });
     }
   }, [errorData]);
 
+  const validateFields = (data) => {
+    const errors = {};
+  
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const error = validate(key, data[key]);
+        if (error) {
+          errors[key] = error;
+        }
+      }
+    }
+  
+    return errors;
+  };
+
   const registerHand = (data) => {
     data.email = data.email.toLowerCase();
+
+    const errors = validateFields(data);
+  if (Object.keys(errors).length > 0) {
+    setErrorData(errors);
+    return;
+  }
+
     const isEmpty = (field) => !field.trim();
     const hasErrors = Object.values(errorData).some((error) => error !== "");
   
@@ -240,7 +270,7 @@ export const Register = () => {
                         name={"Registrate"}
                         clase={"custom_button"}
                         clickHandler={registerHand}
-                        data={registerData}
+                        data={[registerData]}
                       />
                     </Col>
                   </Row>

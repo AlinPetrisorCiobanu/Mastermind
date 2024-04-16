@@ -9,16 +9,19 @@ import { useEffect, useState } from "react";
 
 export const Home = () => {
   const validateToken = useSelector(userDate).credentials;
-  const [token , setToken ] = useState("")
+  const [token , setToken ] = useState(false)
   const user = useSelector(userDate).user;
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    setToken(validateToken)
+    if(validateToken){
+      setToken(validateToken)
+    }
   },[validateToken])
 
    //la función de logout
    const LogOut = () => {
+    setToken(false)
     dispatch(userLogout({ credentials: "" }));
   };
 
@@ -30,7 +33,7 @@ export const Home = () => {
             <h1>Master Mind</h1>
           </Col>
         </Row>
-        {token.length > 10 ? (
+        {token ? (
           <>
             <h4 className="text-center">Hola Sr.{user.name}</h4>
             <Row className="d-flex justify-content-center">
