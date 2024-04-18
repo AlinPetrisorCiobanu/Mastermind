@@ -1,48 +1,68 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { userDate } from "../userSlice";
-import { useSelector } from "react-redux";
+import { userDate, userLogout } from "../userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Custom_Button } from "../../common/Button/Buttons";
 import { deleteUser } from "../../service/apiCalls";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Profile.scss";
+import { Custom_Modal } from "../../common/Modal/Modal";
 
 export const Profile = () => {
   const validateToken = useSelector(userDate).credentials;
-  const [token, setToken] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [token, setToken] = useState("");
   const user = useSelector(userDate).user;
+  const [modalShow, setModalShow] = useState(false);
 
-  useEffect(()=>{
-    if(validateToken){
-      setToken(validateToken)
-    }
-  },[validateToken])
+  useEffect(() => {
+    setToken(validateToken);
+  }, [validateToken]);
 
-  const delete_user = (token ,id) => {
-    const data = {
-      name:"Jodier",
-      last_name:"Puta Mierda"
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      tokenExist(token);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [token]);
+
+  const tokenExist = (tokenEx) => {
+    if (!tokenEx) {
+      navigate("/");
     }
+  };
+  
+  const delete_user = (token, id) => {
     deleteUser(token,id)
       .then((res) => {
-        console.log(res);
+        if(res.success){
+          dispatch(userLogout({ credentials: "" }));
+          setToken("");
+          navigate("/")
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  
-  const modify_user = (user) => {};
+
+  const modify_user = (user) => {
+    // console.log(user)
+    setModalShow(true)
+  };
 
   return (
-    <Container
-      className={
-        user.role !== "user"
-          ? "profile-design profile-design-admin"
-          : "profile-design"
-      }
-    >
+    <Container className={ user.role !== "user" ? "profile-design profile-design-admin" : "profile-design"}>
+      <Custom_Modal 
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+        user={user}
+      />
+      {token?(
       <Row className="d-flex justify-content-center">
         <Col xs={12} md={8} className="card-design">
           {user.role !== "user" && (
@@ -218,7 +238,7 @@ export const Profile = () => {
                   <Custom_Button
                     name={"Modificar"}
                     clickHandler={modify_user}
-                    data={user}
+                    data={[user]}
                   />
                 </Col>
                 <Col
@@ -230,13 +250,18 @@ export const Profile = () => {
                     name={"Eliminar"}
                     clickHandler={delete_user}
                     data={[token, user._id]}
-                />
+                  />
                 </Col>
               </Row>
             </Col>
           </Row>
         </Col>
       </Row>
+      ):(
+        <>
+        
+        </>
+      )}
     </Container>
   );
 };

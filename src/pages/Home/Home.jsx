@@ -4,8 +4,8 @@ import Col from "react-bootstrap/Col";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userDate, userLogout } from "../userSlice";
-import "./Home.scss";
 import { useEffect, useState } from "react";
+import "./Home.scss";
 
 export const Home = () => {
   const validateToken = useSelector(userDate).credentials;
@@ -14,8 +14,10 @@ export const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-    if(validateToken){
-      setToken(validateToken)
+    if (validateToken && validateToken.length > 0) {
+      setToken(true);
+    } else {
+      setToken(false);
     }
   },[validateToken])
 

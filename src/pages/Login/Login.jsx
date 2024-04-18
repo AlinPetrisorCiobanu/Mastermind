@@ -24,7 +24,7 @@ export const Login = () => {
     otherError: "",
   });
   const validateToken = useSelector(userDate).credentials;
-  const [token , setToken ] = useState("")
+  const [token , setToken ] = useState(false)
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const handleOtherError = (errorMessage) => {
@@ -35,7 +35,11 @@ export const Login = () => {
   };
 
   useEffect(()=>{
-    setToken(validateToken)
+    if (validateToken && validateToken.length > 0) {
+      setToken(true);
+    } else {
+      setToken(false);
+    }
   },[validateToken])
 
   const tokenExist = (tokenEx) => {
@@ -44,7 +48,7 @@ export const Login = () => {
     }
   };
   useEffect(() => {
-    if(token.length > 20){
+    if(token){
       tokenExist(token);
     }
   }, [token]);
