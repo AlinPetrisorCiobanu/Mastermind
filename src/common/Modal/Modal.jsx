@@ -22,7 +22,11 @@ export const Custom_Modal = ({show , onHide , user }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+          {user.role !== "user" ? (
             <h6>{user._id}</h6>
+          ):(
+            <h6>{user.name}</h6>
+          )}
           <Row className='mt-5'>
             <Col xs={12} md={6}><p>{user.name} : </p></Col>
             <Col xs={12} md={6}><Custom_Input /></Col>
@@ -43,7 +47,7 @@ export const Custom_Modal = ({show , onHide , user }) => {
             <Col xs={12} md={6}><p>Contraseña : </p></Col>
             <Col xs={12} md={6}><Custom_Input /></Col>
           </Row>
-          {user.role === "user" && (
+          {user.role !== "user" && (
             <>
           <Row className='mt-3'>
             <Col xs={12} md={6}><p>Confirmación ({user.confirmed?("true"):("false")}) : </p></Col>

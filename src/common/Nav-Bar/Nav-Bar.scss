@@ -1,0 +1,33 @@
+.navBar_Design{
+    background-color: rgba(0, 0, 0, 0.297);
+    min-height: 70px;
+    a{
+        color: rgb(202, 242, 0);
+        font-size: 1.2rem;
+        min-width: 100px;
+    }
+    .master-points{
+        min-width: 120px;
+        margin-right: 20px;
+        background-color: rgba(144, 144, 144, 0.606);
+        border-radius: 10px;
+        border: 1px solid;
+        text-align: center;
+        font-size: 1.1rem;
+    }
+    .nav-menu{
+        margin-right: auto;
+        width: 100%;
+        justify-content: center;
+        a{
+            margin-right: 1vw;
+            margin-left: 1vw;
+            color: rgb(202, 242, 0);
+        }
+    }
+    .selected{
+        border-bottom: 3px solid blue;
+        transform: translateY(5px);
+        transition: all 0.2s;
+    }
+}
