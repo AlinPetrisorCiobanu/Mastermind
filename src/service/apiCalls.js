@@ -44,20 +44,20 @@ export const deleteUser = (token ,id) => {
     });
 };
 
-// //users modify
-// export const deleteUser = (token ,id , data) => {
-//   const config = {
-//     headers: {
-//       Authorization: `Bearer ${token}`,
-//     },
-//   };
-//   return axios
-//     .put(`${URL_USER}modify_user/${id}`, data , config)
-//     .then((res) => {
-//       return res.data;
-//     })
-//     .catch((err) => {
-//       return err;
-//     });
-// };
 
+//extraer datos del usuario de la base de datos
+export const modifyUser = (token , id , data) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios
+    .put(`${URL_USER}modify_user/${id}`,data , config )
+    .then((res) => {
+      return res.data
+    })
+    .catch((error) => {
+      return error;
+    });
+};

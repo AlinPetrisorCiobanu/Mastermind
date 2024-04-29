@@ -1,10 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { userDate, userLogout } from "../userSlice";
+import { updateUser, userDate, userLogout } from "../userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Custom_Button } from "../../common/Button/Buttons";
-import { deleteUser } from "../../service/apiCalls";
+import { deleteUser, modifyUser } from "../../service/apiCalls";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Custom_Input } from "../../common/Input/Input";
@@ -15,7 +15,7 @@ export const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [token, setToken] = useState("");
-  const user = useSelector(userDate).user;
+  let user = useSelector(userDate).user;
   const [modifyShow, setModifyShow] = useState(false);
   const [modifyData, setModifyData] = useState({
     name: "",
@@ -73,54 +73,45 @@ export const Profile = () => {
   };
 
   const modify_user = (data) => {
-    /*
-    name: "",
-    last_name: "",
-    email: "",
-    nickname: "",
-    password: "",
-    role: "",
-    is_active: "",
-    confirmed: "",
-    MasterPoints: "",
-    */
     let dataModify = {};
-    data.name !== "" && (dataModify.name = data.name);
-    data.last_name !== "" && (dataModify.last_name = data.last_name);
-    data.email !== "" && (dataModify.email = data.email);
-    data.nickname !== "" && (dataModify.nickname = data.nickname);
-    data.password !== "" && (dataModify.password = data.password);
-    data.role !== "" && (dataModify.role = data.role);
 
-    if(data.is_active !== ""){
-      if(data.is_active === "true"){
-        dataModify.is_active = true
-      }else if(data.is_active === "false"){
-        dataModify.is_active = false
-      }else{
-      }
+    // Verificar y asignar valores si no están vacíos
+    if (data.name) dataModify.name = data.name;
+    if (data.last_name) dataModify.last_name = data.last_name;
+    if (data.email) dataModify.email = data.email;
+    if (data.nickname) dataModify.nickname = data.nickname;
+    if (data.password) dataModify.password = data.password;
+    if (data.role) dataModify.role = data.role;
+    
+    // Convertir cadenas a booleanos
+    if (data.is_active !== "") {
+        dataModify.is_active = data.is_active === "true";
+    }
+    
+    if (data.confirmed !== "") {
+        dataModify.confirmed = data.confirmed === "true";
+    }
+    
+    // Asignar MasterPoints si no es una cadena vacía
+    if (data.MasterPoints) {
+        dataModify.MasterPoints = data.MasterPoints;
     }
 
-    if(data.confirmed !== ""){
-      if(data.confirmed === "true"){
-        dataModify.confirmed = true
-      }else if(data.confirmed === "false"){
-        dataModify.confirmed = false
-      }else{
+    modifyUser(token, user.id, dataModify)
+      .then((res) => {
+        if (res.success) {
+          dispatch(updateUser(dataModify));
       }
-    }
-
-    data.MasterPoints !== "" && (dataModify.MasterPoints = data.MasterPoints);
-
-    console.log(dataModify);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
-
-  user.role = "admin";
 
   return (
     <Container
       className={
-        user.role !== "user"
+        user.role !== "user" && user.role !== "guest"
           ? "profile-design profile-design-admin"
           : "profile-design"
       }
@@ -128,8 +119,8 @@ export const Profile = () => {
       {token ? (
         <Row className="d-flex justify-content-center">
           {modifyShow ? (
-            <Col xs={12} md={8} className="card-design">
-              {user.role !== "user" ? (
+            <Col xs={12} md={8} className="card-design card-modify-design">
+              {user.role !== "user" && user.role !== "guest" ? (
                 <>
                   <h6>{user.name}</h6>
                   <h6>{user._id}</h6>
@@ -197,7 +188,7 @@ export const Profile = () => {
                   />
                 </Col>
               </Row>
-              {user.role !== "user" && (
+              {user.role !== "user" && user.role !== "guest" && (
                 <>
                   <Row className="mt-3">
                     <Col xs={12} md={6}>
@@ -208,7 +199,9 @@ export const Profile = () => {
                     <Col xs={12} md={6}>
                       <Custom_Input
                         name={"confirmed"}
-                        placeholder={user.confirmed ? "confirmado" : "no confirmado"}
+                        placeholder={
+                          user.confirmed ? "confirmado" : "no confirmado"
+                        }
                         handler={inputHandler}
                       />
                     </Col>
@@ -220,7 +213,7 @@ export const Profile = () => {
                     <Col xs={12} md={6}>
                       <Custom_Input
                         name={"is_active"}
-                        placeholder={user.is_active ? ("activo") : ("eliminado")}
+                        placeholder={user.is_active ? "activo" : "eliminado"}
                         handler={inputHandler}
                       />
                     </Col>
@@ -282,7 +275,7 @@ export const Profile = () => {
             </Col>
           ) : (
             <Col xs={12} md={8} className="card-design">
-              {user.role !== "user" && (
+              {user.role !== "user" && user.role !== "guest" && (
                 <Row className="d-flex justify-content-center row-card row-card-admin">
                   <Col xs={12} md={12} className="">
                     <Row>
@@ -356,7 +349,7 @@ export const Profile = () => {
                   </Row>
                 </Col>
               </Row>
-              {user.role !== "user" && (
+              {user.role !== "user" && user.role !== "guest" && (
                 <>
                   <Row className="d-flex justify-content-center row-card">
                     <Col xs={12} md={12} className="">
