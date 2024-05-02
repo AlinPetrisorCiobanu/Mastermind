@@ -8,6 +8,9 @@ import { deleteUser, modifyUser } from "../../service/apiCalls";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Custom_Input } from "../../common/Input/Input";
+import { validate } from "../../service/useFul";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./Profile.scss";
 
 export const Profile = () => {
@@ -27,6 +30,15 @@ export const Profile = () => {
     is_active: "",
     confirmed: "",
     MasterPoints: "",
+  });
+  const [errorData, setErrorData] = useState({
+    nameError: "",
+    last_nameError: "",
+    emailError: "",
+    nicknameError: "",
+    passwordError: "",
+    roleError: "",
+    otherError: "",
   });
 
   useEffect(() => {
@@ -72,8 +84,71 @@ export const Profile = () => {
     }));
   };
 
+   //chequeo de errores para los inputs
+   const checkError = (e) => {
+    let error = "";
+    error = validate(e.target.name, e.target.value);
+    setErrorData((prevState) => ({
+      ...prevState,
+      [e.target.name + "Error"]: error,
+    }));
+  };
+
+  useEffect(() => {
+    const lastError = Object.values(errorData)
+      .reverse()
+      .find((error) => error !== "");
+    if (lastError) {
+      toast.error(lastError, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+
+      setErrorData(prevState => {
+        const cleanedErrors = {};
+        for (const key in prevState) {
+          cleanedErrors[key] = "";
+        }
+        return cleanedErrors;
+      });
+    }
+  }, [errorData]);
+
+  const validateFields = (data) => {
+    const errors = {};
+  
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const error = validate(key, data[key]);
+        if (error) {
+          errors[key] = error;
+        }
+      }
+    }
+  
+    return errors;
+  };
+
+
   const modify_user = (data) => {
     let dataModify = {};
+
+    data.email = data.email.toLowerCase();
+
+    const errors = validateFields(data);
+    if (Object.keys(errors).length > 0) {
+      setErrorData(errors);
+      return;
+    }
+
+    const isEmpty = (field) => !field.trim();
+    const hasErrors = Object.values(errorData).some((error) => error !== "");
 
     // Verificar y asignar valores si no están vacíos
     if (data.name) dataModify.name = data.name;
@@ -82,26 +157,26 @@ export const Profile = () => {
     if (data.nickname) dataModify.nickname = data.nickname;
     if (data.password) dataModify.password = data.password;
     if (data.role) dataModify.role = data.role;
-    
+
     // Convertir cadenas a booleanos
     if (data.is_active !== "") {
-        dataModify.is_active = data.is_active === "true";
+      dataModify.is_active = data.is_active === "true";
     }
-    
+
     if (data.confirmed !== "") {
-        dataModify.confirmed = data.confirmed === "true";
+      dataModify.confirmed = data.confirmed === "true";
     }
-    
+
     // Asignar MasterPoints si no es una cadena vacía
     if (data.MasterPoints) {
-        dataModify.MasterPoints = data.MasterPoints;
+      dataModify.MasterPoints = data.MasterPoints;
     }
 
     modifyUser(token, user.id, dataModify)
       .then((res) => {
         if (res.success) {
           dispatch(updateUser(dataModify));
-      }
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -137,6 +212,8 @@ export const Profile = () => {
                     name={"name"}
                     placeholder={user.name}
                     handler={inputHandler}
+                    handlerError={checkError}
+                    custom={errorData.nameError && "errorInput"}
                   />
                 </Col>
               </Row>
@@ -149,6 +226,8 @@ export const Profile = () => {
                     name={"last_name"}
                     placeholder={user.last_name}
                     handler={inputHandler}
+                    handlerError={checkError}
+                    custom={errorData.last_nameError && "errorInput"}
                   />
                 </Col>
               </Row>
@@ -161,6 +240,8 @@ export const Profile = () => {
                     name={"email"}
                     placeholder={user.email}
                     handler={inputHandler}
+                    handlerError={checkError}
+                    custom={errorData.emailError && "errorInput"}
                   />
                 </Col>
               </Row>
@@ -173,6 +254,8 @@ export const Profile = () => {
                     name={"nickname"}
                     placeholder={user.nickname}
                     handler={inputHandler}
+                    handlerError={checkError}
+                    custom={errorData.nicknameError && "errorInput"}
                   />
                 </Col>
               </Row>
@@ -185,6 +268,8 @@ export const Profile = () => {
                     name={"password"}
                     placeholder={"Contraseña"}
                     handler={inputHandler}
+                    handlerError={checkError}
+                    custom={errorData.passwordError && "errorInput"}
                   />
                 </Col>
               </Row>
@@ -203,6 +288,7 @@ export const Profile = () => {
                           user.confirmed ? "confirmado" : "no confirmado"
                         }
                         handler={inputHandler}
+                        handlerError={checkError}
                       />
                     </Col>
                   </Row>
@@ -215,6 +301,7 @@ export const Profile = () => {
                         name={"is_active"}
                         placeholder={user.is_active ? "activo" : "eliminado"}
                         handler={inputHandler}
+                        handlerError={checkError}
                       />
                     </Col>
                   </Row>
@@ -227,6 +314,7 @@ export const Profile = () => {
                         name={"role"}
                         placeholder={user.role}
                         handler={inputHandler}
+                        handlerError={checkError}
                       />
                     </Col>
                   </Row>
@@ -477,6 +565,18 @@ export const Profile = () => {
       ) : (
         <></>
       )}
+       <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </Container>
   );
 };
