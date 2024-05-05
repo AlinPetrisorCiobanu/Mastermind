@@ -140,23 +140,22 @@ export const Profile = () => {
     let dataModify = {};
 
     data.email = data.email.toLowerCase();
-
     const errors = validateFields(data);
-    if (Object.keys(errors).length > 0) {
-      setErrorData(errors);
-      return;
-    }
 
-    const isEmpty = (field) => !field.trim();
-    const hasErrors = Object.values(errorData).some((error) => error !== "");
-
-    // Verificar y asignar valores si no están vacíos
-    if (data.name) dataModify.name = data.name;
-    if (data.last_name) dataModify.last_name = data.last_name;
-    if (data.email) dataModify.email = data.email;
-    if (data.nickname) dataModify.nickname = data.nickname;
-    if (data.password) dataModify.password = data.password;
-    if (data.role) dataModify.role = data.role;
+    // Verificar si hay errores en campos específicos
+    const nameError = errors.name || "";
+    const lastNameError = errors.last_name || "";
+    const emailError = errors.email || "";
+    const nicknameError = errors.nickname || "";
+    const passwordError = errors.password || "";
+    const roleError = errors.role || "";
+    
+    if (nameError === "" && data.name) dataModify.name = data.name;
+    if (lastNameError === "" && data.last_name) dataModify.last_name = data.last_name;
+    if (emailError === "" && data.email) dataModify.email = data.email;
+    if (nicknameError === "" && data.nickname) dataModify.nickname = data.nickname;
+    if (passwordError === "" && data.password) dataModify.password = data.password;
+    if (roleError === "" && data.role) dataModify.role = data.role;
 
     // Convertir cadenas a booleanos
     if (data.is_active !== "") {
@@ -175,6 +174,7 @@ export const Profile = () => {
     modifyUser(token, user.id, dataModify)
       .then((res) => {
         if (res.success) {
+          setModifyShow(false)
           dispatch(updateUser(dataModify));
         }
       })
