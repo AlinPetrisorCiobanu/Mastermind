@@ -27,13 +27,7 @@ export const Login = () => {
   const [token , setToken ] = useState(false)
   const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const handleOtherError = (errorMessage) => {
-    setErrorData((prevState) => ({
-      ...prevState,
-      otherError: errorMessage,
-    }));
-  };
-
+  
   useEffect(()=>{
     if (validateToken && validateToken.length > 0) {
       setToken(true);
@@ -41,7 +35,7 @@ export const Login = () => {
       setToken(false);
     }
   },[validateToken])
-
+  
   const tokenExist = (tokenEx) => {
     if (tokenEx) {
       navigate("/");
@@ -52,7 +46,14 @@ export const Login = () => {
       tokenExist(token);
     }
   }, [token]);
-
+  
+  const handleOtherError = (errorMessage) => {
+    setErrorData((prevState) => ({
+      ...prevState,
+      otherError: errorMessage,
+    }));
+  };
+  
   //guardo los datos de los inputs
   const inputHandler = (e) => {
     setLoginData((prevState) => ({

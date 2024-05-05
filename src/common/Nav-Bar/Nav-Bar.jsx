@@ -4,12 +4,30 @@ import Navbar from "react-bootstrap/Navbar";
 import { useLocation, Link } from "react-router-dom";
 import { userDate, userLogout } from "../../pages/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import "./Nav-Bar.scss";
 
 export const Nav_bar = () => {
+  const validateToken = useSelector(userDate).credentials;
   const user = useSelector(userDate).user;
   const location = useLocation();
   const dispatch = useDispatch();
+  const [token , setToken ] = useState(false)
+
+  useEffect(()=>{
+    if (validateToken && validateToken.length > 0) {
+      setToken(true);
+    } else {
+      setToken(false);
+    }
+  },[validateToken])
+
+  if(token){
+   setTimeout(() => {
+    LogOut();
+  }, 6 * 60 * 60 * 1000); 
+  }
+  
 
   //la función de logout
   const LogOut = () => {
@@ -52,7 +70,7 @@ export const Nav_bar = () => {
             <Nav.Link className="master-points">
               Points : {user.MasterPoints}
             </Nav.Link>
-            <Nav.Link onClick={()=>LogOut()}>Log-Out</Nav.Link>
+            <Nav.Link onClick={() => LogOut()}>Log-Out</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
