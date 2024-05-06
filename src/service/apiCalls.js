@@ -1,7 +1,7 @@
 import axios from "axios";
 
-// const URL_USER = "https://mastermind-backend.vercel.app/";
-const URL_USER = "http://localhost:3000/";
+const URL_USER = "https://mastermind-backend.vercel.app/";
+// const URL_USER = "http://localhost:3000/";
 
 //users login
 export const login = (data) => {
