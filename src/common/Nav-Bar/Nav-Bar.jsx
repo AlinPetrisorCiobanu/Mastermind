@@ -5,6 +5,7 @@ import { useLocation, Link } from "react-router-dom";
 import { userDate, userLogout } from "../../pages/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useJwt } from "react-jwt";
 import "./Nav-Bar.scss";
 
 export const Nav_bar = () => {
@@ -13,6 +14,7 @@ export const Nav_bar = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [token , setToken ] = useState(false)
+  const {  isExpired } = useJwt(validateToken);
 
   useEffect(()=>{
     if (validateToken && validateToken.length > 0) {
@@ -28,6 +30,10 @@ export const Nav_bar = () => {
   }, 6 * 60 * 60 * 1000); 
   }
   
+    //si el token a caducado le hago LogOut
+    useEffect(()=>{
+      isExpired && LogOut()
+    },[isExpired])
 
   //la función de logout
   const LogOut = () => {
@@ -57,6 +63,15 @@ export const Nav_bar = () => {
             >
               Perfil de Usuario
             </Nav.Link>
+            {user.role !== "user" || user.role !== "guest" && (
+            <Nav.Link
+              as={Link}
+              to="/profile_admin_users"
+              className={location.pathname === "/profile_admin_users" && "selected"}
+            >
+              Perfiles
+            </Nav.Link>
+            )}
             <Nav.Link
               as={Link}
               to="/about"

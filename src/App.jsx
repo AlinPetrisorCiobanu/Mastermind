@@ -8,7 +8,7 @@ function App() {
 const location = useLocation();
   return (
     <>
-      {( location.pathname === "/mastermind" || location.pathname === "/profile_user" || location.pathname === "/about" ) && <Nav_bar />}
+      {( location.pathname === "/mastermind" || location.pathname === "/profile_user" || location.pathname === "/about" || location.pathname === "/profile_admin_users" ) && <Nav_bar />}
       <Body />
     </>
   );

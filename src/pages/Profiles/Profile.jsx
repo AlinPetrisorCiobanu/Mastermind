@@ -10,14 +10,15 @@ import { useNavigate } from "react-router-dom";
 import { Custom_Input } from "../../common/Input/Input";
 import { validate } from "../../service/useFul";
 import { ToastContainer, toast } from "react-toastify";
+import { useJwt } from "react-jwt";
 import "react-toastify/dist/ReactToastify.css";
 import "./Profile.scss";
 
 export const Profile = () => {
-  const validateToken = useSelector(userDate).credentials;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [token, setToken] = useState("");
+  const validateToken = useSelector(userDate).credentials;
+  const [token, setToken] = useState(false);
   let user = useSelector(userDate).user;
   const [modifyShow, setModifyShow] = useState(false);
   const [modifyData, setModifyData] = useState({
@@ -41,42 +42,22 @@ export const Profile = () => {
     otherError: "",
   });
 
-  useEffect(() => {
-    setToken(validateToken);
-  }, [validateToken]);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      tokenExist(token);
-    }, 1000);
-
-    return () => clearTimeout(timer);
-  }, [token]);
-
-  const tokenExist = (tokenEx) => {
-    if (!tokenEx) {
-      navigate("/");
+  //compruebo que hay token y si no le mando al inicio
+  useEffect(()=>{
+    if (validateToken && validateToken.length > 0) {
+      setToken(true);
+    } else {
+      setToken(false);
+      navigate("/")
     }
-  };
+  },[validateToken])
 
-  const delete_user = (token, id) => {
-    deleteUser(token, id)
-      .then((res) => {
-        if (res.success) {
-          dispatch(userLogout({ credentials: "" }));
-          setToken("");
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
+  //constante para controlar vistas datos/modificar
   const modifyShows = () => {
     setModifyShow(!modifyShow);
   };
 
+  //guardo datos de los inputs
   const inputHandler = (e) => {
     setModifyData((prevState) => ({
       ...prevState,
@@ -93,7 +74,22 @@ export const Profile = () => {
       [e.target.name + "Error"]: error,
     }));
   };
+  
+  //validator para los campos
+  const validateFields = (data) => {
+    const errors = {};
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        const error = validate(key, data[key]);
+        if (error) {
+          errors[key] = error;
+        }
+      }
+    }
+    return errors;
+  };
 
+  //toastify options y asignación de errores
   useEffect(() => {
     const lastError = Object.values(errorData)
       .reverse()
@@ -109,7 +105,6 @@ export const Profile = () => {
         progress: undefined,
         theme: "dark",
       });
-
       setErrorData(prevState => {
         const cleanedErrors = {};
         for (const key in prevState) {
@@ -120,23 +115,8 @@ export const Profile = () => {
     }
   }, [errorData]);
 
-  const validateFields = (data) => {
-    const errors = {};
-  
-    for (const key in data) {
-      if (data.hasOwnProperty(key)) {
-        const error = validate(key, data[key]);
-        if (error) {
-          errors[key] = error;
-        }
-      }
-    }
-  
-    return errors;
-  };
-
-
-  const modify_user = (data) => {
+  //llamada a la api para modificar datos del usuario
+  const modify_user = (token ,data) => {
     let dataModify = {};
 
     data.email = data.email.toLowerCase();
@@ -176,6 +156,21 @@ export const Profile = () => {
         if (res.success) {
           setModifyShow(false)
           dispatch(updateUser(dataModify));
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+    
+  //llamada a la api para borrar un usuario
+  const delete_user = (token, id) => {
+    deleteUser(token, id)
+      .then((res) => {
+        if (res.success) {
+          dispatch(userLogout({ credentials: "" }));
+          setToken(false);
         }
       })
       .catch((err) => {
@@ -342,8 +337,8 @@ export const Profile = () => {
                     >
                       <Custom_Button
                         name={"Modificar"}
-                        clickHandler={() => modify_user(modifyData)}
-                        data={[user]}
+                        clickHandler={modify_user}
+                        data={[validateToken , modifyData]}
                       />
                     </Col>
                     <Col
@@ -553,7 +548,7 @@ export const Profile = () => {
                       <Custom_Button
                         name={"Eliminar"}
                         clickHandler={delete_user}
-                        data={[token, user._id]}
+                        data={[validateToken, user._id]}
                       />
                     </Col>
                   </Row>

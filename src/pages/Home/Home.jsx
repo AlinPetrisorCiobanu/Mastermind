@@ -5,14 +5,17 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userDate, userLogin, userLogout } from "../userSlice";
 import { useEffect, useState } from "react";
+import { useJwt } from "react-jwt";
 import "./Home.scss";
 
 export const Home = () => {
+  const dispatch = useDispatch();
   const validateToken = useSelector(userDate).credentials;
   const [token , setToken ] = useState(false)
   const user = useSelector(userDate).user;
-  const dispatch = useDispatch();
-
+  const {  isExpired } = useJwt(validateToken);
+  
+  //compruebo que hay token
   useEffect(()=>{
     if (validateToken && validateToken.length > 0) {
       setToken(true);
@@ -21,11 +24,10 @@ export const Home = () => {
     }
   },[validateToken])
 
-  if(token){
-    setTimeout(() => {
-     LogOut();
-   }, 6 * 60 * 60 * 1000); 
-   }
+  //si el token a caducado le hago LogOut
+  useEffect(()=>{
+    isExpired && LogOut()
+  },[isExpired])
 
    //la función de logout
    const LogOut = () => {
@@ -33,6 +35,7 @@ export const Home = () => {
     dispatch(userLogout({ credentials: "" }));
   };
 
+  //asignación de usuario como invitado
   const guest = () => {
     const guest = {
       _id:"guest",
