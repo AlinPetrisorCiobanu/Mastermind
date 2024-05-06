@@ -44,7 +44,6 @@ export const deleteUser = (token ,id) => {
     });
 };
 
-
 //extraer datos del usuario de la base de datos
 export const modifyUser = (token , id , data) => {
   const config = {
@@ -54,6 +53,23 @@ export const modifyUser = (token , id , data) => {
   };
   return axios
     .put(`${URL_USER}modify_user/${id}`,data , config )
+    .then((res) => {
+      return res.data
+    })
+    .catch((error) => {
+      return error;
+    });
+};
+
+//extraer datos del usuario de la base de datos
+export const list_users = (token,page) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  return axios
+    .get(`${URL_USER}list_users/${page}` , config )
     .then((res) => {
       return res.data
     })

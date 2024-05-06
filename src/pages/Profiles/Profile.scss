@@ -1,47 +1,66 @@
-.profile-design{
-    margin-top: 30vh;
-    .card-design{
-        padding: 2px;
-        padding-top: 40px;
-        padding-bottom: 20px;
-        border: 0px;
-        border-bottom: 10px solid rgba(0, 136, 255, 0.884);
-        border-right: 10px solid rgb(0, 136, 255);
-        border-radius: 20px;
-        background-color: rgba(255, 255, 255, 0.809);
-        color: black;
-        h5{
-            margin: 10px;
-            margin-top: 10px;
-            margin-left: 60px;
-        }
-        h3{
-            margin: 10px;
-            font-size: 1.5rem;
-        }
-        .row-card{
-            margin-top: 20px;
-            margin-bottom: 20px;
-            .button-design{
-                button{
-                    margin: 10px;
-                    padding: 3px;
-                    padding-left: 15px;
-                    padding-right: 15px;
-                    border-radius: 10px;
-                }
-            }
-        }
-        .errorInput{
-            border: 3px solid red;
-            background-color: rgba(255, 0, 0, 0.448);
-        }
+.profile-design {
+  margin-top: 30vh;
+  .card-design {
+    padding: 2px;
+    padding-top: 40px;
+    padding-bottom: 20px;
+    border: 0px;
+    border-bottom: 10px solid rgba(0, 136, 255, 0.884);
+    border-right: 10px solid rgb(0, 136, 255);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.809);
+    color: black;
+    h5 {
+      margin: 10px;
+      margin-top: 10px;
+      margin-left: 60px;
     }
-    .card-modify-design{
-        padding-left: 50px;
-        padding-right: 40px;
+    h3 {
+      margin: 10px;
+      font-size: 1.5rem;
     }
+    .row-card {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      .button-design {
+        button {
+          margin: 10px;
+          padding: 3px;
+          padding-left: 15px;
+          padding-right: 15px;
+          border-radius: 10px;
+        }
+      }
+    }
+    .errorInput {
+      border: 3px solid red;
+      background-color: rgba(255, 0, 0, 0.448);
+    }
+  }
+  .card-modify-design {
+    padding-left: 50px;
+    padding-right: 40px;
+  }
 }
-.profile-design-admin{
-    margin-top: 10vh;
+.profile-design-admin {
+  margin-top: 10vh;
+}
+
+.container_profiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 50px;
+  justify-content: center;
+  padding: 50px;
+  .user_profile {
+    background-color: rgba(67, 64, 64, 0.414);
+    text-align: center;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    @media screen and (max-width: 500px) {
+      max-width: 300px;
+    }
+    height: auto;
+  }
 }

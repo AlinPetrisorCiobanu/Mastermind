@@ -63,7 +63,7 @@ export const Nav_bar = () => {
             >
               Perfil de Usuario
             </Nav.Link>
-            {user.role !== "user" || user.role !== "guest" && (
+            {(user.role === "admin" || user.role ==="super_admin") && (
             <Nav.Link
               as={Link}
               to="/profile_admin_users"

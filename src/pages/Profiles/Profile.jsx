@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 import { Custom_Input } from "../../common/Input/Input";
 import { validate } from "../../service/useFul";
 import { ToastContainer, toast } from "react-toastify";
-import { useJwt } from "react-jwt";
 import "react-toastify/dist/ReactToastify.css";
 import "./Profile.scss";
 

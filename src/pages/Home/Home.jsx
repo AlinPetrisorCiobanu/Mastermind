@@ -43,7 +43,8 @@ export const Home = () => {
       last_name:"",
       email:"",
       nickname:"",
-      role:"guest"
+      // role:"guest"
+      role:"admin"
     }
     dispatch(userLogin({ credentials: "token_guest", user: guest }));
   }
@@ -69,10 +70,10 @@ export const Home = () => {
                 <h2>Perfil de Usuario</h2>
               </Col>
             </Row>
-            {user.role === "admin" && (
+            {(user.role === "admin" || user.role ==="super_admin") && (
               <Row className="d-flex justify-content-center">
               <Col as={Link} to="/profile_admin_users" className="menu-option" xs={8} md={4}>
-                <h2>Perfil de Usuario</h2>
+                <h2>Perfiles</h2>
               </Col>
             </Row>
             )}
