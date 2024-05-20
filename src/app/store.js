@@ -9,7 +9,6 @@ import userSlice from "../pages/userSlice";
 
 const reducers = combineReducers({
   user: userSlice,
-  //   slice: tusSlice,
 });
 
 const persistConfig = {

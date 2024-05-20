@@ -43,12 +43,13 @@ export const Profile = () => {
 
   //compruebo que hay token y si no le mando al inicio
   useEffect(()=>{
-    if (validateToken && validateToken.length > 0) {
-      setToken(true);
-    } else {
-      setToken(false);
-      navigate("/")
-    }
+    
+      if ((validateToken && validateToken.length > 0)) {
+        setToken(true);
+      } else {
+        setToken(false);
+        navigate("/")
+      }
   },[validateToken])
 
   //constante para controlar vistas datos/modificar

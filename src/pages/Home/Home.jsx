@@ -40,13 +40,13 @@ export const Home = () => {
     const guest = {
       _id:"guest",
       name:"invitado",
-      last_name:"",
-      email:"",
-      nickname:"",
-      // role:"guest"
-      role:"admin"
+      last_name:"invitado",
+      email:"invitado@invitado",
+      nickname:"guest",
+      role:"guest",
+      MasterPoints : "200"
     }
-    dispatch(userLogin({ credentials: "token_guest", user: guest }));
+    dispatch(userLogin({ credentials: "aljksjhdjhkhgasjkdhjasklhdjklashjkdhasjkhgdjhkashjkdhasjkhdkjashgdhkgashjkgdhjasghjdgashj", user: guest }));
   }
 
   return (

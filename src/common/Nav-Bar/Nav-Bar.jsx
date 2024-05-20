@@ -13,31 +13,33 @@ export const Nav_bar = () => {
   const user = useSelector(userDate).user;
   const location = useLocation();
   const dispatch = useDispatch();
-  const [token , setToken ] = useState(false)
-  const {  isExpired } = useJwt(validateToken);
+  const [token, setToken] = useState(false);
+  const { isExpired } = useJwt(validateToken);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (validateToken && validateToken.length > 0) {
       setToken(true);
     } else {
       setToken(false);
     }
-  },[validateToken])
+  }, [validateToken]);
 
-  if(token){
-   setTimeout(() => {
-    LogOut();
-  }, 6 * 60 * 60 * 1000); 
+  if (token) {
+    setTimeout(() => {
+      LogOut();
+    }, 6 * 60 * 60 * 1000);
   }
-  
-    //si el token a caducado le hago LogOut
-    useEffect(()=>{
-      isExpired && LogOut()
-    },[isExpired])
+
+  //si el token a caducado le hago LogOut
+  useEffect(() => {
+    if(user.role !== "guest"){
+      isExpired && LogOut();
+    }
+  }, [isExpired]);
 
   //la función de logout
   const LogOut = () => {
-    dispatch(userLogout({ credentials: "" }));
+    dispatch(userLogout({ credentials: "" , user: "" }));
   };
 
   return (
@@ -63,14 +65,16 @@ export const Nav_bar = () => {
             >
               Perfil de Usuario
             </Nav.Link>
-            {(user.role === "admin" || user.role ==="super_admin") && (
-            <Nav.Link
-              as={Link}
-              to="/profile_admin_users"
-              className={location.pathname === "/profile_admin_users" && "selected"}
-            >
-              Perfiles
-            </Nav.Link>
+            {(user.role === "admin" || user.role === "super_admin") && (
+              <Nav.Link
+                as={Link}
+                to="/profile_admin_users"
+                className={
+                  location.pathname === "/profile_admin_users" && "selected"
+                }
+              >
+                Perfiles
+              </Nav.Link>
             )}
             <Nav.Link
               as={Link}

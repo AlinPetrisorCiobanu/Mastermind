@@ -1,0 +1,45 @@
+.master_mind_design {
+  .color_design {
+    // background-color: aliceblue;
+    width: 90vw;
+    height: 40vh;
+    margin: 0 auto;
+    margin-top: 300px;
+  }
+  .text_info{
+    border-bottom: 10px solid black;
+    border-radius: 40px;
+  }
+  h3 {
+    font-family: "Bungee Spice", sans-serif;
+    font-size: 1.8rem;
+  }
+  .container_dificulty {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 50px;
+    justify-content: center;
+    border-bottom: 10px solid black;
+    border-radius: 40px;
+    .col-12 {
+      text-align: center;
+      border-radius: 8px;
+      min-width: 250px;
+      h3{
+        margin-top: 50px;
+        transition: all 0.4s;
+      }
+      h3:hover{
+        font-size: 1.5rem;
+        border-bottom: 5px solid blue;
+        border-radius: 20px;
+      }
+    }
+}
+.boton_game{
+  border: 2px solid blue;
+  border-radius: 12px;
+  background-color: black;
+  padding: 5px;
+}
+}

@@ -171,7 +171,7 @@ export const Register = () => {
                     type={"text"}
                     handler={inputHandler}
                     handlerError={checkError}
-                    custom={errorData.nameError ? "input-error" : ""}
+                    custom={errorData.nameError && "input-error"}
                   />
                 </Col>
               </Row>
