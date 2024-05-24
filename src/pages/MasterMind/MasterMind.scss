@@ -1,5 +1,5 @@
 .master_mind_design {
-  .color_design {
+  .dificulty_design {
     // background-color: aliceblue;
     width: 90vw;
     height: 40vh;
@@ -36,6 +36,16 @@
       }
     }
 }
+
+.color_design{
+  width: 90vw;
+  height: 40vh;
+  margin: 0 auto;
+  margin-top: 300px;
+
+  
+}
+
 .boton_game{
   border: 2px solid blue;
   border-radius: 12px;
