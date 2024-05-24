@@ -35,15 +35,33 @@ export const MasterMind = () => {
   }, [validateToken]);
 
 useEffect(()=>{
-  let colores = []
-  for(let i = 0 ; i<nr_color;i++){
-    colores.push(chroma.random().hex())
-  }
-  setColors_shows(colores)
+  const colores = []
+    const initialColors = {}
+
+    for (let i = 0; i < nr_color; i++) {
+      const color = chroma.random().hex();
+      colores.push(color);
+      initialColors[`color${i+1}`] = color;
+    }
+
+    setColors_shows(colores)
+    setColors(initialColors)
 },[nr_color])
 
-const handler_color = (a) => {
-  console.log(a)
+const handler_color = (event) => {
+  const { name, value } = event.target;
+
+  setColors(prevColors => ({
+    ...prevColors,
+    [name]: value
+  }))
+  
+  setColors_shows(prevColorShows => {
+    const updatedColorShows = [...prevColorShows];
+    const index = parseInt(name.replace('color', ''), 10);
+    updatedColorShows[index-1] = value;
+    return updatedColorShows;
+  })
 }
 
   return (
@@ -227,11 +245,11 @@ const handler_color = (a) => {
                 <Row className="justify-content-center">
                   {color_shows.map((color,i)=>{
                     return(
-                     <Col key={i} >
+                     <Col md={1} key={i} className="m-5" >
                       <Row>
                         <Col className="text-center" md={12}>color : {i+1}</Col>
                         <Col md={12}>
-                          <Custom_Input type={"color"} defaultValue={color} handler={(e)=>handler_color(e)}/>
+                          <Custom_Input type={"color"} name={`color${i+1}`} defaultValue={color} handler={handler_color}/>
                         </Col>
                       </Row>
                     
