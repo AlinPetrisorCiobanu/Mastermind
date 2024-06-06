@@ -131,14 +131,20 @@ export const Register = () => {
     if (!Object.values(data).some(isEmpty) && !hasErrors) {
       setLoading(true);
       register(data)
-        .then(() => {
-          const dataToLogin = { email: data.email, password: data.password };
+        .then((res) => {
+          if(res.response.data.success){
+           const dataToLogin = { email: data.email, password: data.password };
           login(dataToLogin)
             .then((res) => {
               dispatch(userLogin({ credentials: res.token, user: res.data }));
               setLoading(false);
             })
-            .catch(console.log);
+            .catch(console.log); 
+          }else{
+            handleOtherError(res.response.data.message);
+            setLoading(false);
+          }
+          
         })
         .catch((err) => {
           setOtherError(err);
